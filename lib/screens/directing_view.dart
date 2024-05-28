@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weatherapp/screens/home_screen.dart';
 import 'package:weatherapp/service/api_service.dart';
+import 'package:weatherapp/utils/colors.dart';
 
 class DirectingView extends StatefulWidget {
   const DirectingView({super.key});
@@ -15,6 +16,7 @@ class _DirectingViewState extends State<DirectingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.bigCardColorday,
       body: Center(
           child: ElevatedButton(
               onPressed: () {
@@ -31,12 +33,13 @@ class _DirectingViewState extends State<DirectingView> {
                             try {
                               await ApiService.getWeatherApi(_controller.text);
                               Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => HomeView(
-                                      cityname: _controller.text,
-                                    ),
-                                  ));
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HomeView(
+                                    cityname: _controller.text,
+                                  ),
+                                ),
+                              );
                             } catch (e) {
                               Navigator.pop(context);
                               showDialog(
@@ -56,13 +59,13 @@ class _DirectingViewState extends State<DirectingView> {
                                               child: const Text("OK"),
                                             )
                                           ]));
+                              _controller.clear();
                             }
                           },
                           child: const Text("Submit"))
                     ],
                   ),
                 );
-                print(_controller.text);
               },
               child: const Text("Enter Your City"))),
     );

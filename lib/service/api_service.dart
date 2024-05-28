@@ -14,6 +14,8 @@ class ApiService {
       return WeatherModel.fromJson(responseBody);
     } else if (response.statusCode == 404) {
       throw Exception('City not found');
+    } else if (response.statusCode == 400) {
+      throw Exception('City not found');
     } else {
       throw Exception(
           'Failed to load weather data with Error: ${response.statusCode}');

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weatherapp/models/weather_model.dart';
+import 'package:weatherapp/screens/directing_view.dart';
 import 'package:weatherapp/service/api_service.dart';
 import 'package:weatherapp/utils/colors.dart';
 
@@ -85,7 +86,7 @@ class _BigcardViewState extends State<BigcardView> {
                     ),
                     const Spacer(),
                     Text(
-                      '${(weather?.rain?.d1h == null ? 0 : weather!.rain!.d1h! * 100).toString()} %',
+                      '${(weather?.rain?.d1h == null ? 0 : weather!.rain!.d1h! * 100).toStringAsFixed(0).toString()} %',
                       style: TextStyle(color: AppColors.bigcardfontColor),
                     )
                   ]), //percipitation row
@@ -184,17 +185,11 @@ class _BigcardViewState extends State<BigcardView> {
                   const Spacer(),
                   ElevatedButton.icon(
                     onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: const Text("Search Location"),
-                          actions: [
-                            TextField(
-                              controller: _controller,
-                            )
-                          ],
-                        ),
-                      );
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DirectingView(),
+                          ));
                     },
                     label: Text(
                       "Change Location",

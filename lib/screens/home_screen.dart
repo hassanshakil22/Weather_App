@@ -13,7 +13,6 @@ class HomeView extends StatelessWidget {
   const HomeView({super.key, required this.cityname});
 
   @override
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(

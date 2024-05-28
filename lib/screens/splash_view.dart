@@ -28,7 +28,7 @@ class _SplashViewState extends State<SplashView> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.bigCardColorNight,
-        body: Center(
+        body: const Center(
           child: SizedBox(
               width: 200,
               height: 200,
