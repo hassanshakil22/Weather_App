@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weatherapp/screens/bigCard_view.dart';
 // import 'package:intl/intl.dart';
 // import 'package:weatherapp/models/weather_model.dart';
 import 'package:weatherapp/screens/card_view.dart';
@@ -13,10 +14,13 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(),
-        body: Center(
-            child: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: CardView(),
-        )));
+        body: const Center(
+          child: Row(
+            children: [
+              CardView(),
+              BigcardView(),
+            ],
+          ),
+        ));
   }
 }

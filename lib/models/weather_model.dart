@@ -5,6 +5,7 @@ class WeatherModel {
   Main? main;
   int? visibility;
   Wind? wind;
+  Rain? rain;
   Clouds? clouds;
   int? dt;
   Sys? sys;
@@ -20,6 +21,7 @@ class WeatherModel {
       this.main,
       this.visibility,
       this.wind,
+      this.rain,
       this.clouds,
       this.dt,
       this.sys,
@@ -40,6 +42,7 @@ class WeatherModel {
     main = json['main'] != null ? Main.fromJson(json['main']) : null;
     visibility = json['visibility'];
     wind = json['wind'] != null ? Wind.fromJson(json['wind']) : null;
+    rain = json['rain'] != null ? Rain.fromJson(json['rain']) : null;
     clouds = json['clouds'] != null ? Clouds.fromJson(json['clouds']) : null;
     dt = json['dt'];
     sys = json['sys'] != null ? Sys.fromJson(json['sys']) : null;
@@ -64,6 +67,9 @@ class WeatherModel {
     data['visibility'] = visibility;
     if (wind != null) {
       data['wind'] = wind!.toJson();
+    }
+    if (rain != null) {
+      data['rain'] = rain!.toJson();
     }
     if (clouds != null) {
       data['clouds'] = clouds!.toJson();
@@ -176,6 +182,22 @@ class Wind {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['speed'] = speed;
     data['deg'] = deg;
+    return data;
+  }
+}
+
+class Rain {
+  num? d1h;
+
+  Rain({this.d1h});
+
+  Rain.fromJson(Map<String, dynamic> json) {
+    d1h = json['1h'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['1h'] = d1h;
     return data;
   }
 }
