@@ -5,7 +5,8 @@ import 'package:weatherapp/service/api_service.dart';
 import 'package:weatherapp/utils/colors.dart';
 
 class BigcardView extends StatefulWidget {
-  const BigcardView({super.key});
+  final String cityname;
+  const BigcardView({super.key, required this.cityname});
 
   @override
   State<BigcardView> createState() => _BigcardViewState();
@@ -18,7 +19,7 @@ class _BigcardViewState extends State<BigcardView> {
   bool? isDaytime;
   TextEditingController _controller = TextEditingController();
   Future _fetchweatherData() async {
-    final response = await ApiService.getWeatherApi("auckland");
+    final response = await ApiService.getWeatherApi(widget.cityname);
     setState(() {
       weather = response;
       dateTime = DateTime.fromMillisecondsSinceEpoch(weather!.dt! * 1000);
@@ -82,7 +83,7 @@ class _BigcardViewState extends State<BigcardView> {
                           fontWeight: FontWeight.w400,
                           fontSize: 15),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Text(
                       '${(weather?.rain?.d1h == null ? 0 : weather!.rain!.d1h! * 100).toString()} %',
                       style: TextStyle(color: AppColors.bigcardfontColor),
@@ -99,7 +100,7 @@ class _BigcardViewState extends State<BigcardView> {
                           fontWeight: FontWeight.w400,
                           fontSize: 15),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Text(
                       "${weather?.main?.humidity.toString() ?? "0"} %",
                       style: TextStyle(color: AppColors.bigcardfontColor),
@@ -117,7 +118,7 @@ class _BigcardViewState extends State<BigcardView> {
                           fontWeight: FontWeight.w400,
                           fontSize: 15),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Text(
                       '${weather?.wind?.speed.toString() ?? 0} km/h',
                       style: TextStyle(color: AppColors.bigcardfontColor),
@@ -135,7 +136,7 @@ class _BigcardViewState extends State<BigcardView> {
                           fontWeight: FontWeight.w400,
                           fontSize: 13),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Text(
                       '${weather?.wind?.deg.toString() ?? 0}°',
                       style: TextStyle(color: AppColors.bigcardfontColor),
@@ -153,7 +154,7 @@ class _BigcardViewState extends State<BigcardView> {
                           fontWeight: FontWeight.w400,
                           fontSize: 13),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Text(
                       toCelcius(weather?.main?.feelsLike),
                       style: TextStyle(color: AppColors.bigcardfontColor),
@@ -171,7 +172,7 @@ class _BigcardViewState extends State<BigcardView> {
                           fontWeight: FontWeight.w400,
                           fontSize: 13),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Text(
                       '${weather?.main?.pressure.toString() ?? 0} hPa',
                       style: TextStyle(color: AppColors.bigcardfontColor),
@@ -180,7 +181,7 @@ class _BigcardViewState extends State<BigcardView> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   ElevatedButton.icon(
                     onPressed: () {
                       showDialog(
@@ -202,7 +203,12 @@ class _BigcardViewState extends State<BigcardView> {
                     icon: Icon(Icons.location_on_outlined,
                         color: AppColors.bigCardColorNight),
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.bigCardColorday,
+                        backgroundColor: isDay(
+                                dt: weather?.dt,
+                                sunrise: weather?.sys?.sunrise,
+                                sunset: weather?.sys?.sunset)
+                            ? Colors.white60
+                            : Colors.white,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                   )

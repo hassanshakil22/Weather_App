@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weatherapp/screens/bigCard_view.dart';
+import 'package:weatherapp/screens/bigcard_view.dart';
 // import 'package:intl/intl.dart';
 // import 'package:weatherapp/models/weather_model.dart';
 import 'package:weatherapp/screens/card_view.dart';
@@ -8,19 +8,28 @@ import 'package:weatherapp/screens/card_view.dart';
 // import 'package:weatherapp/utils/colors.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+  final String cityname;
 
+  const HomeView({super.key, required this.cityname});
+
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
-        body: const Center(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+        ),
+        body: Center(
           child: Row(
             children: [
-              CardView(),
-              BigcardView(),
+              CardView(
+                cityname: cityname,
+              ),
+              BigcardView(cityname: cityname),
             ],
           ),
         ));
   }
 }
+
+TextEditingController _controller = TextEditingController();

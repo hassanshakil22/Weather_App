@@ -6,7 +6,8 @@ import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:weatherapp/utils/colors.dart';
 
 class CardView extends StatefulWidget {
-  const CardView({super.key});
+  final String cityname;
+  const CardView({super.key, required this.cityname});
 
   @override
   State<CardView> createState() => _CardViewState();
@@ -18,7 +19,7 @@ class _CardViewState extends State<CardView> {
   DateTime? dateTime;
   bool? isDaytime;
   Future _fetchweatherData() async {
-    final response = await ApiService.getWeatherApi("auckland");
+    final response = await ApiService.getWeatherApi(widget.cityname);
     setState(() {
       weather = response;
       dateTime = DateTime.fromMillisecondsSinceEpoch(weather!.dt! * 1000);
@@ -137,6 +138,7 @@ class _CardViewState extends State<CardView> {
                     ],
                   ),
                 ),
+                // ignore: prefer_const_constructors
                 Spacer(),
                 Padding(
                   padding: const EdgeInsets.only(left: 20, bottom: 40),
