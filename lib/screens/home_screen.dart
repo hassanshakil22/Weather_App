@@ -34,8 +34,12 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
-  String toCelcius(double temp) {
-    return "${(temp - 273).toStringAsFixed(0).toString()}°C ";
+  String toCelcius(double? temp) {
+    if (temp != null) {
+      return "${(temp - 273).toStringAsFixed(0).toString()} °C ";
+    } else {
+      return "--°C";
+    }
   }
 
   @override
@@ -54,13 +58,18 @@ class _HomeViewState extends State<HomeView> {
             child: Container(
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      opacity: 0.4,
+                      opacity: 0.5,
                       fit: BoxFit.cover,
                       image: Svg(
                         'assets/images/night.svg',
+                      ),
+                      colorFilter: ColorFilter.mode(
+                        Colors.grey.withOpacity(
+                            0.9), // Adjust the color and opacity to make the image duller
+                        BlendMode.darken,
                       ))),
               height: 300,
-              width: 250,
+              width: 200,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -78,7 +87,9 @@ class _HomeViewState extends State<HomeView> {
                   Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
-                        "${dateTime?.day} ${DateFormat('MMMM').format(dateTime!)} ${dateTime?.year} ",
+                        dateTime != null
+                            ? "${dateTime!.day} ${DateFormat('MMMM').format(dateTime!)} ${dateTime!.year}"
+                            : "Loading...", // Provide a fallback value when dateTime is null,
                         style: TextStyle(
                             color: AppColors.fontColor,
                             fontWeight: FontWeight.w300),
@@ -91,21 +102,70 @@ class _HomeViewState extends State<HomeView> {
                           Icons.location_on_outlined,
                           color: AppColors.fontColor,
                         ),
-                        Text(
-                          weather?.name ?? " no data",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.fontColor),
+                        Row(
+                          children: [
+                            Text(
+                              '${weather?.name} ,' ?? " no data",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.fontColor),
+                            ),
+                            Text(
+                              weather?.sys?.country ?? "no data",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.fontColor),
+                            )
+                          ],
                         ),
                       ],
                     ),
                   ),
                   Spacer(),
-                  weather?.weather?[0].main == "Clear"
-                      ? Icon(Icons.sunny)
-                      : weather?.weather?[0].main == "cloudy"
-                          ? Icon(Icons.cloud)
-                          : Text(weather?.weather?[0].main ?? ""),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, bottom: 40),
+                    child: Column(
+                      children: [
+                        weather?.weather?[0].main == "Clear"
+                            ? Icon(Icons.sunny,
+                                size: 40, color: AppColors.fontColor)
+                            : weather?.weather?[0].main == "Clouds"
+                                ? Icon(
+                                    Icons.cloud,
+                                    size: 40,
+                                    color: AppColors.fontColor,
+                                  )
+                                : weather?.weather?[0].main == "Haze"
+                                    ? Icon(Icons.water,
+                                        size: 40, color: AppColors.fontColor)
+                                    : weather?.weather?[0].main == "Dust"
+                                        ? Icon(Icons.air,
+                                            size: 40,
+                                            color: AppColors.fontColor)
+                                        : weather?.weather?[0].main == "Rain"
+                                            ? Icon(Icons.thunderstorm_outlined,
+                                                size: 40,
+                                                color: AppColors.fontColor)
+                                            : Icon(Icons.remove,
+                                                size: 40,
+                                                color: AppColors.fontColor),
+                        Text(
+                          toCelcius(weather?.main?.temp),
+                          style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.fontColor),
+                        ),
+                        Text(
+                          weather?.weather?[0].description ?? "no data",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.fontColor,
+                              fontSize: 20),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
